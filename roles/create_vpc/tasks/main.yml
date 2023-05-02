@@ -1,0 +1,20 @@
+---
+# tasks file for create_vpc
+- name: Create a network
+  google.cloud.gcp_compute_network:
+    state: present
+    project: "{{ gcp_project }}"
+    name: "{{ gcp_vpc_name }}"
+    auto_create_subnetworks: "{{ gcp_vpc_auto_create_subnetworks|bool }}"
+  register: r_gcp_network
+
+- name: Create subnets if not automatically created
+  when: not gcp_vpc_auto_create_subnetworks|bool
+  google.cloud.gcp_compute_subnetwork:
+    state: present
+    project: "{{ gcp_project }}"
+    network: "{{ r_gcp_network }}"
+    name: "{{ item.name }}"
+    region: "{{ item.region }}"
+    ip_cidr_range: "{{ item.cidr }}"
+  loop: "{{ gcp_vpc_subnets }}"

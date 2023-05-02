@@ -1,0 +1,26 @@
+---
+- name: Create resources in Google Cloud
+  hosts: all
+  gather_facts: false
+
+  vars:
+    create_vpc: false
+    create_storage_bucket: false
+    create_compute_instance: false
+
+  tasks:
+
+    - name: Create a VPC in GCP
+      when: create_vpc
+      ansible.builtin.include_role:
+        name: create_vpc
+
+    - name: Create a storage bucket in GCP - WIP
+      when: create_storage_bucket
+      ansible.builtin.include_role:
+        name: create_storage_bucket
+
+    - name: Create a compute instance in GCP
+      when: create_compute_instance
+      ansible.builtin.include_role:
+        name: create_compute_instance

@@ -1,0 +1,13 @@
+---
+# tasks file for create_storage_bucket
+- name: Create a Storage Bucket
+  google.cloud.gcp_storage_bucket:
+    state: present
+    project: "{{ gcp_project }}"
+    name: "{{ gcp_storage_bucket_name }}"
+    location: "{{ gcp_storage_bucket_location }}"
+    storage_class: "{{ gcp_storage_bucket_storage_class }}"
+    labels: "{{ gcp_storage_bucket_labels | default(omit) }}"
+    versioning:
+      enabled: "{{ gcp_storage_bucket_versioning_enabled|bool }}"
+  register: r_gcp_storage_bucket

@@ -1,0 +1,37 @@
+---
+###################################################
+## Common
+gcp_project: openenv-nlvn9
+
+###################################################
+## VPC & Subnets
+create_vpc: false
+gcp_vpc_name: "my-pretty-manual-vpc"
+gcp_vpc_auto_create_subnetworks: false
+gcp_vpc_subnets:
+  - name: "my-pretty-subnet"
+    region: "us-central1"
+    cidr: "10.128.0.0/20"
+  - name: "my-pretty-subnet"
+    region: "us-west1"
+    cidr: "10.138.0.0/20"
+  - name: "my-pretty-subnet"
+    region: "us-east1"
+    cidr: "10.148.0.0/20"
+
+###################################################
+# Storage Bucket
+# RHDP GCP Blank environments currently don't have the permissions to create a storage bucket
+create_storage_bucket: false
+gcp_storage_bucket_name: "my-pretty-bucket"
+gcp_storage_bucket_location: "us-east1"
+gcp_storage_bucket_labels:
+  env: "dev"
+  team: "devops"
+
+###################################################
+## Compute Instance
+create_compute_instance: true
+gcp_compute_instance_name: "my-pretty-instance"
+gcp_compute_disk_name: "{{ gcp_compute_instance_name }}-disk"
+gcp_compute_disk_size_gb: 50

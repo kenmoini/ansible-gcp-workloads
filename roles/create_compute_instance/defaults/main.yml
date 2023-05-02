@@ -1,0 +1,4 @@
+---
+# defaults file for create_compute_instance
+gcp_compute_disk_image_source: family/rhel-9
+gcp_compute_disk_size_gb: 50

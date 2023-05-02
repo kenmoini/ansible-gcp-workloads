@@ -1,0 +1,45 @@
+---
+# tasks file for create_compute_instance
+
+- name: Create a disk
+  google.cloud.gcp_compute_disk:
+      state: present
+      project: "{{ gcp_project }}"
+      name: "{{ gcp_compute_disk_name }}"
+      size_gb: "{{ gcp_compute_disk_size_gb | int }}"
+      source_image: "{{ gcp_compute_disk_image_source }}"
+      zone: "{{ zone }}"
+      scopes:
+        - https://www.googleapis.com/auth/compute
+  register: disk
+
+- name: Create a address
+  google.cloud.gcp_compute_address:
+      state: present
+      project: "{{ gcp_project }}"
+      name: 'address-instance'
+      region: "{{ region }}"
+      scopes:
+        - https://www.googleapis.com/auth/compute
+  register: address
+
+- name: Create a instance
+  google.cloud.gcp_compute_instance:
+      state: present
+      project: "{{ gcp_project }}"
+      name: test-vm
+      machine_type: n1-standard-1
+      disks:
+        - auto_delete: true
+          boot: true
+          source: "{{ disk }}"
+      network_interfaces:
+          - network: null # use default
+            access_configs:
+              - name: 'External NAT'
+                nat_ip: "{{ address }}"
+                type: 'ONE_TO_ONE_NAT'
+      zone: "{{ zone }}"
+      scopes:
+        - https://www.googleapis.com/auth/compute
+  register: instance

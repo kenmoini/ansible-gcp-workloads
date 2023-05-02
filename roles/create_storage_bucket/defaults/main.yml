@@ -1,0 +1,6 @@
+---
+# defaults file for create_storage_bucket
+gcp_storage_bucket_location: us-central1
+gcp_storage_bucket_storage_class: STANDARD
+
+gcp_storage_bucket_versioning_enabled: false

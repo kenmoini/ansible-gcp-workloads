@@ -1,0 +1,26 @@
+---
+- name: Delete resources in Google Cloud
+  hosts: all
+  gather_facts: false
+
+  vars:
+    delete_vpc: false
+    delete_storage_bucket: false
+    delete_compute_instance: false
+
+  tasks:
+
+    - name: Delete a VPC in GCP
+      when: delete_vpc
+      ansible.builtin.include_role:
+        name: delete_vpc
+
+    - name: Delete a storage bucket in GCP
+      when: delete_storage_bucket
+      ansible.builtin.include_role:
+        name: delete_storage_bucket
+
+    - name: Delete a compute instance in GCP
+      when: delete_compute_instance
+      ansible.builtin.include_role:
+        name: delete_compute_instance
